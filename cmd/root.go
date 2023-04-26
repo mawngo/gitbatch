@@ -10,6 +10,7 @@ import (
 func init() {
 	cobra.OnInitialize(configure)
 	rootCmd.AddCommand(&cloneGroupCmd)
+	rootCmd.AddCommand(&fetchAllCmd)
 }
 
 var rootCmd = &cobra.Command{
