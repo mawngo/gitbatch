@@ -23,11 +23,11 @@ gitbatch help
 ### Clone all project in gitlab group
 
 ```shell
-gitbatch clone [group id]
+gitbatch clone [group id] [dir?]
 ```
 
 ### Fetch all project in side directory
 
 ```shell
-gitbatch fetch
+gitbatch fetch [dir?]
 ```

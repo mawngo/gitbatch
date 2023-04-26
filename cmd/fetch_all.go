@@ -28,6 +28,7 @@ var fetchAllCmd = func() cobra.Command {
 			files := lo.Must(os.ReadDir(workingDir))
 			parallel := viper.GetInt("parallel")
 			if parallel > runtime.NumCPU() { // Too many connection may starve the SSH_AUTH_SOCK
+				println("Reduce number of parallel to avoid SSH_AUTH_SOCK error")
 				parallel = runtime.NumCPU()
 			}
 
