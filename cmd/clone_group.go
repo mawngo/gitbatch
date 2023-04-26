@@ -42,8 +42,9 @@ var cloneGroupCmd = func() cobra.Command {
 
 			projects := group["projects"].([]any)
 			fmt.Printf("Total %d projects\n", len(projects))
-			for _, project := range projects {
-				project := project.(map[string]any)
+
+			util.SplitParallel(viper.GetInt("parallel"), projects, func(p any) {
+				project := p.(map[string]any)
 				ssh := lo.Must(cmd.Flags().GetBool("ssh"))
 				url := lo.Ternary(ssh, project["ssh_url_to_repo"], project["http_url_to_repo"]).(string)
 				name := project["path"].(string)
@@ -51,18 +52,21 @@ var cloneGroupCmd = func() cobra.Command {
 				dir := path.Join(workingDir, name)
 				if _, err := os.Stat(dir); err == nil {
 					color.Blue("Skip %s already exist.\n", name)
-					continue
+					return
 				}
 
 				color.Green("Cloning %s...\n", name)
-				_, err := git.PlainClone(dir, false, &git.CloneOptions{
-					URL:      url,
-					Progress: os.Stdout,
-				})
+				opt := &git.CloneOptions{
+					URL: url,
+				}
+				if viper.GetInt("parallel") == 1 {
+					opt.Progress = os.Stdout
+				}
+				_, err := git.PlainClone(dir, false, opt)
 				if err != nil {
 					color.Red("Error %s\n", err)
 				}
-			}
+			})
 		},
 	}
 

@@ -2,12 +2,15 @@ package cmd
 
 import (
 	"fmt"
+	"gitbatch/pkg/util"
 	"github.com/fatih/color"
 	"github.com/go-git/go-git/v5"
 	"github.com/samber/lo"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 	"os"
 	"path"
+	"runtime"
 )
 
 var fetchAllCmd = func() cobra.Command {
@@ -23,24 +26,29 @@ var fetchAllCmd = func() cobra.Command {
 			}
 
 			files := lo.Must(os.ReadDir(workingDir))
-			for _, file := range files {
+			parallel := viper.GetInt("parallel")
+			if parallel > runtime.NumCPU() { // Too many connection may starve the SSH_AUTH_SOCK
+				parallel = runtime.NumCPU()
+			}
+
+			util.SplitParallel(parallel, files, func(file os.DirEntry) {
 				if !file.IsDir() {
-					continue
+					return
 				}
 				repo, err := git.PlainOpen(path.Join(workingDir, file.Name()))
 
 				if err != nil {
 					color.Yellow("Fetch %s: %s", file.Name(), err)
-					continue
+					return
 				}
 
 				err = repo.Fetch(&git.FetchOptions{})
 				if err != nil {
 					fmt.Printf("Fetch %s: %s\n", file.Name(), err)
-					continue
+					return
 				}
 				color.Green("Fetch: %s", file.Name())
-			}
+			})
 		},
 	}
 	return command

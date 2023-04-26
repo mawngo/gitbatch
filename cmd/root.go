@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"github.com/samber/lo"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"os"
@@ -11,6 +12,8 @@ func init() {
 	cobra.OnInitialize(configure)
 	rootCmd.AddCommand(&cloneGroupCmd)
 	rootCmd.AddCommand(&fetchAllCmd)
+	rootCmd.PersistentFlags().Int("parallel", 32, "Maximum parallel for each commands")
+	cobra.CheckErr(viper.BindPFlag("parallel", rootCmd.Flag("parallel")))
 }
 
 var rootCmd = &cobra.Command{
@@ -20,14 +23,15 @@ var rootCmd = &cobra.Command{
 }
 
 func configure() {
-	home, err := os.UserHomeDir()
-	cobra.CheckErr(err)
-	viper.AddConfigPath(path.Join(home, ".config"))
+	viper.AddConfigPath(path.Join(lo.Must(os.UserHomeDir()), ".config"))
 	viper.SetConfigType("json")
 	viper.SetConfigName("gb")
 	viper.AutomaticEnv()
-	_ = viper.SafeWriteConfig()
-	cobra.CheckErr(viper.ReadInConfig())
+
+	if err := viper.SafeWriteConfig(); err != nil {
+		cobra.CheckErr(viper.ReadInConfig())
+		cobra.CheckErr(viper.WriteConfig())
+	}
 }
 
 func Execute() {
