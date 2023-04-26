@@ -17,3 +17,10 @@ func AskConfig(key, message string) string {
 	}
 	return value
 }
+
+func AskPassword(message string) string {
+	var value = ""
+	err := survey.AskOne(&survey.Password{Message: message}, &value, survey.WithValidator(survey.Required))
+	cobra.CheckErr(err)
+	return value
+}

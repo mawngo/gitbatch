@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"gitbatch/cmd/clone"
 	"github.com/samber/lo"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -10,10 +11,12 @@ import (
 
 func init() {
 	cobra.OnInitialize(configure)
-	rootCmd.AddCommand(&cloneGroupCmd)
+	rootCmd.AddCommand(lo.ToPtr(clone.NewCloneCommand()))
 	rootCmd.AddCommand(&fetchAllCmd)
 	rootCmd.PersistentFlags().Int("parallel", 32, "Maximum parallel for each commands")
+	rootCmd.PersistentFlags().String("user", "@ssh", "Auth user name set to @ssh to auth using ssh")
 	cobra.CheckErr(viper.BindPFlag("parallel", rootCmd.Flag("parallel")))
+	cobra.CheckErr(viper.BindPFlag("user", rootCmd.Flag("user")))
 }
 
 var rootCmd = &cobra.Command{
