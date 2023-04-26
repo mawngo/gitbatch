@@ -29,10 +29,16 @@ var cloneGroupCmd = func() cobra.Command {
 			res := lo.Must(http.Get(fmt.Sprintf("https://%s/api/v4/groups/%s?private_token=%s&per_page=%d",
 				host, args[0], token, size)))
 
+			if res.StatusCode != 200 {
+				fmt.Printf("Error status code %d when fetch project infomation\n", res.StatusCode)
+				fmt.Printf("API: https://<%s>/api/v4/groups/<%s>?per_page=<%d>\n", host, args[0], size)
+				return
+			}
 			var group map[string]any
 			cobra.CheckErr(json.Unmarshal(lo.Must(io.ReadAll(res.Body)), &group))
 			if message, ok := group["message"]; ok {
 				println(message)
+				return
 			}
 
 			workingDir := "."
