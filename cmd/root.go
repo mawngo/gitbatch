@@ -13,7 +13,7 @@ func init() {
 }
 
 var rootCmd = &cobra.Command{
-	Use:   "gb",
+	Use:   "gitbatch",
 	Short: "Git batch operations",
 	Long:  "Apply git command to all sub folder",
 }
@@ -21,11 +21,11 @@ var rootCmd = &cobra.Command{
 func configure() {
 	home, err := os.UserHomeDir()
 	cobra.CheckErr(err)
-
 	viper.AddConfigPath(path.Join(home, ".config"))
 	viper.SetConfigType("json")
-	viper.SetConfigName("gb.json")
+	viper.SetConfigName("gb")
 	viper.AutomaticEnv()
+	_ = viper.SafeWriteConfig()
 	cobra.CheckErr(viper.ReadInConfig())
 }
 
