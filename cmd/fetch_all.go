@@ -26,7 +26,7 @@ var fetchAllCmd = func() cobra.Command {
 
 			files := lo.Must(os.ReadDir(workingDir))
 			parallel := viper.GetInt("parallel")
-			user := lo.Must(cmd.Flags().GetString("user"))
+			user := viper.GetString("user")
 			ssh := user == "@ssh"
 
 			if ssh && parallel > 8 { // Too many connection may starve the SSH_AUTH_SOCK

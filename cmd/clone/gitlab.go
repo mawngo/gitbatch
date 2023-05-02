@@ -62,7 +62,7 @@ func executeCloneGitLabCommand(cmd *cobra.Command, args []string) {
 	projects := group["projects"].([]any)
 	fmt.Printf("Total %d projects\n", len(projects))
 
-	ssh := lo.Must(cmd.Flags().GetString("user")) == "@ssh"
+	ssh := viper.GetString("user") == "@ssh"
 	util.SplitParallel(viper.GetInt("parallel"), projects, func(p any) {
 		project := p.(map[string]any)
 		url := lo.Ternary(ssh, project["ssh_url_to_repo"], project["http_url_to_repo"]).(string)
