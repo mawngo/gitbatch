@@ -3,7 +3,7 @@ package clone
 import (
 	"encoding/json"
 	"fmt"
-	"gitbatch/pkg/util"
+	"gitbatch/internal/util"
 	"github.com/fatih/color"
 	"github.com/go-git/go-git/v5"
 	"github.com/samber/lo"
