@@ -15,7 +15,7 @@ go install .
 ## Feature
 
 By default, this script is configured to use ssh auth. To using basic auth, you must specify your username
-using ``--user=<username>``. To switch back to ssh mode, specify ```--user=@ssh```
+using ``--user=<username>`` or ``-u=<username>``. To switch back to ssh mode, specify ```--user=@ssh```
 
 To show list of available commands
 
