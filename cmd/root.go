@@ -25,7 +25,7 @@ var rootCmd = &cobra.Command{
 	Use:   "gitbatch",
 	Short: "Git batch operations",
 	Long:  "Apply git command to all sub folder",
-	PostRun: func(cmd *cobra.Command, args []string) {
+	PersistentPostRun: func(cmd *cobra.Command, args []string) {
 		cobra.CheckErr(viper.WriteConfig())
 	},
 }
