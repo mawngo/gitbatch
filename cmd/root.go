@@ -14,7 +14,9 @@ func init() {
 	rootCmd.AddCommand(lo.ToPtr(clone.NewCloneCommand()))
 	rootCmd.AddCommand(&fetchAllCmd)
 	rootCmd.PersistentFlags().Int("parallel", 32, "Maximum parallel for each commands")
-	rootCmd.PersistentFlags().String("user", "@ssh", "Auth user name set to @ssh to auth using ssh")
+	rootCmd.PersistentFlags().String("user", "@ssh", "Auth user name (set to @ssh to auth using ssh)")
+	cobra.EnableCommandSorting = false
+
 	cobra.CheckErr(viper.BindPFlag("parallel", rootCmd.Flag("parallel")))
 	cobra.CheckErr(viper.BindPFlag("user", rootCmd.Flag("user")))
 }

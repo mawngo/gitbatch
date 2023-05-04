@@ -29,6 +29,10 @@ gitbatch help
 gitbatch clone [group id] [dir?]
 ```
 
+```shell
+gitbatch cg [group id] [dir?]
+```
+
 ### Fetch all project inside directory
 
 ```shell
