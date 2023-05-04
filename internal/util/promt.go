@@ -2,7 +2,6 @@ package util
 
 import (
 	"github.com/AlecAivazis/survey/v2"
-	"github.com/samber/lo"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -13,7 +12,6 @@ func AskConfig(key, message string) string {
 		err := survey.AskOne(&survey.Input{Message: message}, &value, survey.WithValidator(survey.Required))
 		cobra.CheckErr(err)
 		viper.Set(key, value)
-		lo.Must0(viper.WriteConfig())
 	}
 	return value
 }

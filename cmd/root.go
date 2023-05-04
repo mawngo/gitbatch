@@ -25,6 +25,9 @@ var rootCmd = &cobra.Command{
 	Use:   "gitbatch",
 	Short: "Git batch operations",
 	Long:  "Apply git command to all sub folder",
+	PostRun: func(cmd *cobra.Command, args []string) {
+		cobra.CheckErr(viper.WriteConfig())
+	},
 }
 
 func configure() {
@@ -35,7 +38,6 @@ func configure() {
 
 	if err := viper.SafeWriteConfig(); err != nil {
 		cobra.CheckErr(viper.ReadInConfig())
-		cobra.CheckErr(viper.WriteConfig())
 	}
 }
 
