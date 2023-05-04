@@ -17,8 +17,8 @@ func init() {
 	rootCmd.PersistentFlags().String("user", "@ssh", "Auth user name (set to @ssh to auth using ssh)")
 	cobra.EnableCommandSorting = false
 
-	cobra.CheckErr(viper.BindPFlag("parallel", rootCmd.Flag("parallel")))
-	cobra.CheckErr(viper.BindPFlag("user", rootCmd.Flag("user")))
+	cobra.CheckErr(viper.BindPFlag("parallel", rootCmd.PersistentFlags().Lookup("parallel")))
+	cobra.CheckErr(viper.BindPFlag("user", rootCmd.PersistentFlags().Lookup("user")))
 }
 
 var rootCmd = &cobra.Command{
