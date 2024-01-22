@@ -13,6 +13,7 @@ func init() {
 	cobra.OnInitialize(configure)
 	rootCmd.AddCommand(lo.ToPtr(clone.NewCloneCommand()))
 	rootCmd.AddCommand(&fetchAllCmd)
+	rootCmd.AddCommand(&pullAllCmd)
 	rootCmd.PersistentFlags().Int("parallel", 32, "Maximum parallel for each commands")
 	rootCmd.PersistentFlags().StringP("user", "u", "@ssh", "Auth user name (set to @ssh to auth using ssh)")
 	cobra.EnableCommandSorting = false
