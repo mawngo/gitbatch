@@ -1,4 +1,4 @@
-module gitbatch
+module github.com/lana-toolbox/gitbatch
 
 go 1.22
 

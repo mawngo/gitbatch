@@ -1,6 +1,6 @@
 package main
 
-import "gitbatch/cmd"
+import "github.com/lana-toolbox/gitbatch/cmd"
 
 func main() {
 	cmd.Execute()
