@@ -36,7 +36,7 @@ func bindCloneGitlabFlags(command *cobra.Command) {
 
 func executeCloneGitLabCommand(cmd *cobra.Command, args []string) {
 	host := util.AskConfig("gitlab.host", "Enter Gitlab host")
-	token := util.AskConfig("gitlab.token", "Enter Gitlab token")
+	token := util.AskToken()
 	size := lo.Must(cmd.Flags().GetInt("max"))
 
 	res := lo.Must(http.Get(fmt.Sprintf("https://%s/api/v4/groups/%s?private_token=%s&per_page=%d",
@@ -61,11 +61,10 @@ func executeCloneGitLabCommand(cmd *cobra.Command, args []string) {
 
 	projects := group["projects"].([]any)
 	fmt.Printf("Total %d projects\n", len(projects))
-
-	ssh := viper.GetString("user") == "@ssh"
+	auth := util.AskAuth()
 	util.SplitParallel(viper.GetInt("parallel"), projects, func(p any) {
 		project := p.(map[string]any)
-		url := lo.Ternary(ssh, project["ssh_url_to_repo"], project["http_url_to_repo"]).(string)
+		url := lo.Ternary(util.IsSSH(), project["ssh_url_to_repo"], project["http_url_to_repo"]).(string)
 		name := project["path"].(string)
 
 		dir := path.Join(workingDir, name)
@@ -76,7 +75,8 @@ func executeCloneGitLabCommand(cmd *cobra.Command, args []string) {
 
 		color.Green("Cloning %s...\n", name)
 		opt := &git.CloneOptions{
-			URL: url,
+			URL:  url,
+			Auth: auth,
 		}
 		if viper.GetInt("parallel") == 1 {
 			opt.Progress = os.Stdout

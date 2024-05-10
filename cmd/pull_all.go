@@ -6,7 +6,7 @@ import (
 	"github.com/fatih/color"
 	"github.com/go-git/go-git/v5"
 	"github.com/go-git/go-git/v5/plumbing"
-	"github.com/go-git/go-git/v5/plumbing/transport/http"
+	"github.com/go-git/go-git/v5/plumbing/transport"
 	"github.com/spf13/cobra"
 	"os"
 )
@@ -17,7 +17,7 @@ var pullAllCmd = func() cobra.Command {
 		Short: "Pull all project in directory",
 		Args:  cobra.RangeArgs(0, 1),
 		Run: func(cmd *cobra.Command, args []string) {
-			RunWithGitWorkTree(cmd, args, func(cmd *cobra.Command, file os.DirEntry, worktree *git.Worktree, auth *http.BasicAuth) {
+			RunWithGitWorkTree(cmd, args, func(cmd *cobra.Command, file os.DirEntry, worktree *git.Worktree, auth transport.AuthMethod) {
 				opt := git.PullOptions{}
 				if auth != nil {
 					opt.Auth = auth
@@ -40,8 +40,8 @@ var pullAllCmd = func() cobra.Command {
 	return command
 }()
 
-func RunWithGitWorkTree(cmd *cobra.Command, args []string, handler func(cmd *cobra.Command, file os.DirEntry, worktree *git.Worktree, auth *http.BasicAuth)) {
-	RunWithGit(cmd, args, func(cmd *cobra.Command, file os.DirEntry, repo *git.Repository, auth *http.BasicAuth) {
+func RunWithGitWorkTree(cmd *cobra.Command, args []string, handler func(cmd *cobra.Command, file os.DirEntry, worktree *git.Worktree, auth transport.AuthMethod)) {
+	RunWithGit(cmd, args, func(cmd *cobra.Command, file os.DirEntry, repo *git.Repository, auth transport.AuthMethod) {
 		worktree, err := repo.Worktree()
 		if err != nil {
 			color.Yellow("Worktree %s: %s", file.Name(), err)

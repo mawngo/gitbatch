@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"github.com/fatih/color"
 	"github.com/go-git/go-git/v5"
-	"github.com/go-git/go-git/v5/plumbing/transport/http"
+	"github.com/go-git/go-git/v5/plumbing/transport"
 	"github.com/spf13/cobra"
 	"os"
 )
@@ -16,7 +16,7 @@ var pushAllCmd = func() cobra.Command {
 		Short: "Push all project in directory",
 		Args:  cobra.RangeArgs(0, 1),
 		Run: func(cmd *cobra.Command, args []string) {
-			RunWithGit(cmd, args, func(cmd *cobra.Command, file os.DirEntry, repo *git.Repository, auth *http.BasicAuth) {
+			RunWithGit(cmd, args, func(cmd *cobra.Command, file os.DirEntry, repo *git.Repository, auth transport.AuthMethod) {
 				opt := git.PushOptions{}
 				if auth != nil {
 					opt.Auth = auth
