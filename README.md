@@ -4,12 +4,10 @@ Script to batch handling git projects
 
 # Installation
 
-Require git installed
+Require go 1.22+
 
 ```shell
-git clone https://github.com/lana-toolbox/gitbatch-script gitbatch-script
-cd gitbatch-script
-go install .
+go install github.com/lana-toolbox/gitbatch@latest
 ```
 
 ## Feature
