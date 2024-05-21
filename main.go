@@ -3,5 +3,6 @@ package main
 import "github.com/sitdownrightnow/gitbatch/cmd"
 
 func main() {
-	cmd.Execute()
+	cli := cmd.NewCLI()
+	cli.Execute()
 }

@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"github.com/samber/lo"
 	"github.com/sitdownrightnow/gitbatch/cmd/clone"
 	"github.com/sitdownrightnow/gitbatch/internal/util"
@@ -11,35 +12,43 @@ import (
 )
 
 func init() {
-	cobra.OnInitialize(configure)
-	rootCmd.AddCommand(lo.ToPtr(clone.NewCloneCommand()))
-	rootCmd.AddCommand(&fetchAllCmd)
-	rootCmd.AddCommand(&pullAllCmd)
-	rootCmd.AddCommand(&pushAllCmd)
-	rootCmd.PersistentFlags().Int("parallel", 32, "Maximum parallel for each commands")
-	rootCmd.PersistentFlags().String("token", "", "Host token")
-	rootCmd.PersistentFlags().StringP("mode", "m", "gitlab", "Host mode")
-	rootCmd.PersistentFlags().StringP("user", "u", "@ssh", "Auth user name [<user>, @ssh]")
 	cobra.EnableCommandSorting = false
-
-	cobra.CheckErr(viper.BindPFlag("parallel", rootCmd.PersistentFlags().Lookup("parallel")))
-	cobra.CheckErr(viper.BindPFlag("mode", rootCmd.PersistentFlags().Lookup("mode")))
-	cobra.CheckErr(viper.BindPFlag("user", rootCmd.PersistentFlags().Lookup("user")))
 }
 
-var rootCmd = &cobra.Command{
-	Use:   "gitbatch",
-	Short: "Git batch operations",
-	Long:  "Apply git command to all sub folder",
-	PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
-		if t, err := cmd.Flags().GetString("token"); err == nil && t != "" {
-			viper.Set(util.GetMode()+".token", t)
-		}
-		return nil
-	},
-	PersistentPostRun: func(cmd *cobra.Command, args []string) {
-		cobra.CheckErr(viper.WriteConfig())
-	},
+type CLI struct {
+	command *cobra.Command
+}
+
+// NewCLI create new CLI instance and setup application config.
+func NewCLI() *CLI {
+	command := cobra.Command{
+		Use:   "gitbatch",
+		Short: "Git batch operations",
+		Long:  "Apply git command to all sub folder",
+		PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
+			if t, err := cmd.Flags().GetString("token"); err == nil && t != "" {
+				viper.Set(util.GetMode()+".token", t)
+			}
+			return nil
+		},
+		PersistentPostRun: func(cmd *cobra.Command, args []string) {
+			cobra.CheckErr(viper.WriteConfig())
+		},
+	}
+	cobra.OnInitialize(configure)
+	command.AddCommand(lo.ToPtr(clone.NewCloneCommand()))
+	command.AddCommand(&fetchAllCmd)
+	command.AddCommand(&pullAllCmd)
+	command.AddCommand(&pushAllCmd)
+	command.PersistentFlags().Int("parallel", 32, "Maximum parallel for each commands")
+	command.PersistentFlags().String("token", "", "Host token")
+	command.PersistentFlags().StringP("mode", "m", "gitlab", "Host mode")
+	command.PersistentFlags().StringP("user", "u", "@ssh", "Auth user name [<user>, @ssh]")
+
+	cobra.CheckErr(viper.BindPFlag("parallel", command.PersistentFlags().Lookup("parallel")))
+	cobra.CheckErr(viper.BindPFlag("mode", command.PersistentFlags().Lookup("mode")))
+	cobra.CheckErr(viper.BindPFlag("user", command.PersistentFlags().Lookup("user")))
+	return &CLI{&command}
 }
 
 func configure() {
@@ -52,6 +61,8 @@ func configure() {
 	}
 }
 
-func Execute() {
-	cobra.CheckErr(rootCmd.Execute())
+func (cli *CLI) Execute() {
+	if err := cli.command.Execute(); err != nil {
+		_, _ = fmt.Fprintln(os.Stderr, err)
+	}
 }
