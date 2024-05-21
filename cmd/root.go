@@ -28,7 +28,7 @@ func init() {
 }
 
 var rootCmd = &cobra.Command{
-	Use:   "github.com/sitdownrightnow/gitbatch",
+	Use:   "gitbatch",
 	Short: "Git batch operations",
 	Long:  "Apply git command to all sub folder",
 	PersistentPreRunE: func(cmd *cobra.Command, args []string) error {

@@ -18,7 +18,29 @@ using ``--user=<username>`` or ``-u=<username>``. To switch back to ssh mode, sp
 To show list of available commands
 
 ```shell
-gitbatch help
+> gitbatch -h
+
+Apply git command to all sub folder
+
+Usage:
+  gitbatch [command]
+
+Available Commands:
+  clone       Clone all project in group (alias for 'clone gitlab')
+  fetch       Fetch all project in directory
+  pull        Pull all project in directory
+  push        Push all project in directory
+  help        Help about any command
+  completion  Generate the autocompletion script for the specified shell
+
+Flags:
+  -h, --help           help for gitbatch
+  -m, --mode string    Host mode (default "gitlab")
+      --parallel int   Maximum parallel for each commands (default 32)
+      --token string   Host token
+  -u, --user string    Auth user name [<user>, @ssh] (default "@ssh")
+
+Use "gitbatch [command] --help" for more information about a command.
 ```
 
 ### Clone all project in gitlab group
