@@ -2,8 +2,8 @@ package cmd
 
 import (
 	"github.com/samber/lo"
-	"github.com/sitdownrightnow2552/gitbatch/cmd/clone"
-	"github.com/sitdownrightnow2552/gitbatch/internal/util"
+	"github.com/sitdownrightnow/gitbatch/cmd/clone"
+	"github.com/sitdownrightnow/gitbatch/internal/util"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"os"
@@ -28,7 +28,7 @@ func init() {
 }
 
 var rootCmd = &cobra.Command{
-	Use:   "github.com/sitdownrightnow2552/gitbatch",
+	Use:   "github.com/sitdownrightnow/gitbatch",
 	Short: "Git batch operations",
 	Long:  "Apply git command to all sub folder",
 	PersistentPreRunE: func(cmd *cobra.Command, args []string) error {

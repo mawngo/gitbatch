@@ -1,4 +1,4 @@
-module github.com/sitdownrightnow2552/gitbatch
+module github.com/sitdownrightnow/gitbatch
 
 go 1.22
 

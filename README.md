@@ -7,7 +7,7 @@ Script to batch handling git projects
 Require go 1.22+
 
 ```shell
-go install github.com/sitdownrightnow2552/gitbatch@latest
+go install github.com/sitdownrightnow/gitbatch@latest
 ```
 
 ## Feature

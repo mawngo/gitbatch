@@ -1,6 +1,6 @@
 package main
 
-import "github.com/sitdownrightnow2552/gitbatch/cmd"
+import "github.com/sitdownrightnow/gitbatch/cmd"
 
 func main() {
 	cmd.Execute()

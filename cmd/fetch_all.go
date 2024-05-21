@@ -7,7 +7,7 @@ import (
 	"github.com/go-git/go-git/v5"
 	"github.com/go-git/go-git/v5/plumbing/transport"
 	"github.com/samber/lo"
-	"github.com/sitdownrightnow2552/gitbatch/internal/util"
+	"github.com/sitdownrightnow/gitbatch/internal/util"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"os"
