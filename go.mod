@@ -1,10 +1,10 @@
-module github.com/lana-toolbox/gitbatch
+module github.com/sitdownrightnow2552/gitbatch
 
 go 1.22
 
 require (
 	github.com/AlecAivazis/survey/v2 v2.3.7
-	github.com/fatih/color v1.16.0
+	github.com/fatih/color v1.17.0
 	github.com/go-git/go-git/v5 v5.12.0
 	github.com/samber/lo v1.39.0
 	github.com/spf13/cobra v1.8.0
