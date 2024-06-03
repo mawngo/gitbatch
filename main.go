@@ -1,6 +1,6 @@
 package main
 
-import "github.com/sitdownrightnow/gitbatch/cmd"
+import "github.com/mawngo/gitbatch/cmd"
 
 func main() {
 	cli := cmd.NewCLI()

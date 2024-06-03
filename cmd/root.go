@@ -2,9 +2,9 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/mawngo/gitbatch/cmd/clone"
+	"github.com/mawngo/gitbatch/internal/util"
 	"github.com/samber/lo"
-	"github.com/sitdownrightnow/gitbatch/cmd/clone"
-	"github.com/sitdownrightnow/gitbatch/internal/util"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"os"
