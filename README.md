@@ -17,7 +17,7 @@ using ``--user=<username>`` or ``-u=<username>``. To switch back to ssh mode, sp
 
 To show list of available commands
 
-```shell
+```
 > gitbatch -h
 
 Apply git command to all sub folder
@@ -45,17 +45,17 @@ Use "gitbatch [command] --help" for more information about a command.
 
 ### Clone all project in gitlab group
 
-```shell
+```
 gitbatch clone [group id] [dir?]
 ```
 
-```shell
+```
 gitbatch cg [group id] [dir?]
 ```
 
 ### Fetch all project inside directory
 
-```shell
+```
 gitbatch fetch [dir?]
 ```
 
