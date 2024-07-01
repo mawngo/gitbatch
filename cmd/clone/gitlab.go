@@ -32,6 +32,7 @@ func bindCloneGitlabFlags(command *cobra.Command) {
 	command.Flags().Int("max", 10000, "Maximum number of projects to clone")
 	lo.Must0(viper.BindPFlag("gitlab.token", command.Flag("token")))
 	lo.Must0(viper.BindPFlag("gitlab.host", command.Flag("host")))
+	command.Flags().SortFlags = false
 }
 
 func executeCloneGitLabCommand(cmd *cobra.Command, args []string) {

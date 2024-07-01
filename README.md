@@ -34,11 +34,11 @@ Available Commands:
   completion  Generate the autocompletion script for the specified shell
 
 Flags:
-  -h, --help           help for gitbatch
   -m, --mode string    Host mode (default "gitlab")
       --parallel int   Maximum parallel for each commands (default 32)
       --token string   Host token
   -u, --user string    Auth user name [<user>, @ssh] (default "@ssh")
+  -h, --help           help for gitbatch
 
 Use "gitbatch [command] --help" for more information about a command.
 ```

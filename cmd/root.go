@@ -44,6 +44,7 @@ func NewCLI() *CLI {
 	command.PersistentFlags().String("token", "", "Host token")
 	command.PersistentFlags().StringP("mode", "m", "gitlab", "Host mode")
 	command.PersistentFlags().StringP("user", "u", "@ssh", "Auth user name [<user>, @ssh]")
+	command.Flags().SortFlags = false
 
 	cobra.CheckErr(viper.BindPFlag("parallel", command.PersistentFlags().Lookup("parallel")))
 	cobra.CheckErr(viper.BindPFlag("mode", command.PersistentFlags().Lookup("mode")))
