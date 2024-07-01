@@ -40,10 +40,13 @@ func executeCloneGitLabCommand(cmd *cobra.Command, args []string) {
 	token := util.AskToken()
 	size := lo.Must(cmd.Flags().GetInt("max"))
 
-	res := lo.Must(http.Get(fmt.Sprintf("https://%s/api/v4/groups/%s?private_token=%s&per_page=%d",
-		host, args[0], token, size)))
+	res, err := http.Get(fmt.Sprintf("https://%s/api/v4/groups/%s?private_token=%s&per_page=%d", host, args[0], token, size))
+	if err != nil {
+		panic("Error connect to gitlab: " + err.Error())
+	}
+	defer res.Body.Close()
 
-	if res.StatusCode != 200 {
+	if res.StatusCode != http.StatusOK {
 		fmt.Printf("Error status code %d when fetch project infomation\n", res.StatusCode)
 		fmt.Printf("API: https://<%s>/api/v4/groups/<%s>?per_page=<%d>\n", host, args[0], size)
 		return

@@ -17,7 +17,7 @@ var pullAllCmd = func() cobra.Command {
 		Short: "Pull all project in directory",
 		Args:  cobra.RangeArgs(0, 1),
 		Run: func(cmd *cobra.Command, args []string) {
-			RunWithGitWorkTree(cmd, args, func(cmd *cobra.Command, file os.DirEntry, worktree *git.Worktree, auth transport.AuthMethod) {
+			RunWithGitWorkTree(cmd, args, func(_ *cobra.Command, file os.DirEntry, worktree *git.Worktree, auth transport.AuthMethod) {
 				opt := git.PullOptions{}
 				if auth != nil {
 					opt.Auth = auth

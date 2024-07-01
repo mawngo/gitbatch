@@ -16,7 +16,7 @@ var pushAllCmd = func() cobra.Command {
 		Short: "Push all project in directory",
 		Args:  cobra.RangeArgs(0, 1),
 		Run: func(cmd *cobra.Command, args []string) {
-			RunWithGit(cmd, args, func(cmd *cobra.Command, file os.DirEntry, repo *git.Repository, auth transport.AuthMethod) {
+			RunWithGit(cmd, args, func(_ *cobra.Command, file os.DirEntry, repo *git.Repository, auth transport.AuthMethod) {
 				opt := git.PushOptions{}
 				if auth != nil {
 					opt.Auth = auth

@@ -11,27 +11,24 @@ import (
 	"path"
 )
 
-func init() {
-	cobra.EnableCommandSorting = false
-}
-
 type CLI struct {
 	command *cobra.Command
 }
 
 // NewCLI create new CLI instance and setup application config.
 func NewCLI() *CLI {
+	cobra.EnableCommandSorting = false
 	command := cobra.Command{
 		Use:   "gitbatch",
 		Short: "Git batch operations",
 		Long:  "Apply git command to all sub folder",
-		PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
+		PersistentPreRunE: func(cmd *cobra.Command, _ []string) error {
 			if t, err := cmd.Flags().GetString("token"); err == nil && t != "" {
 				viper.Set(util.GetMode()+".token", t)
 			}
 			return nil
 		},
-		PersistentPostRun: func(cmd *cobra.Command, args []string) {
+		PersistentPostRun: func(_ *cobra.Command, _ []string) {
 			cobra.CheckErr(viper.WriteConfig())
 		},
 	}
