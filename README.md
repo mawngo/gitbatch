@@ -1,4 +1,4 @@
-# GitBatch Script
+# Git Batch
 
 Script to batch handling git projects
 
