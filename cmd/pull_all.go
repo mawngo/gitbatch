@@ -7,8 +7,10 @@ import (
 	"github.com/go-git/go-git/v5"
 	"github.com/go-git/go-git/v5/plumbing"
 	"github.com/go-git/go-git/v5/plumbing/transport"
+	"github.com/samber/lo"
 	"github.com/spf13/cobra"
 	"os"
+	"strings"
 )
 
 var pullAllCmd = func() cobra.Command {
@@ -18,7 +20,9 @@ var pullAllCmd = func() cobra.Command {
 		Args:  cobra.RangeArgs(0, 1),
 		Run: func(cmd *cobra.Command, args []string) {
 			RunWithGitWorkTree(cmd, args, func(_ *cobra.Command, file os.DirEntry, worktree *git.Worktree, auth transport.AuthMethod) {
-				opt := git.PullOptions{}
+				opt := git.PullOptions{
+					SingleBranch: !lo.Must(cmd.Flags().GetBool("all")),
+				}
 				if auth != nil {
 					opt.Auth = auth
 				}
@@ -35,7 +39,8 @@ var pullAllCmd = func() cobra.Command {
 		},
 	}
 
-	command.Flags().StringP("branch", "b", "master", "Specify branch to pull")
+	command.Flags().StringP("branch", "b", "", "Specify branch to pull")
+	command.Flags().Bool("all", false, "Pull all branch instead of only current branch")
 
 	return command
 }()
@@ -50,7 +55,15 @@ func RunWithGitWorkTree(cmd *cobra.Command, args []string, handler func(cmd *cob
 
 		branchName, err := cmd.Flags().GetString("branch")
 		if err == nil && branchName != "" {
-			err = worktree.Checkout(&git.CheckoutOptions{Branch: plumbing.NewBranchReferenceName(branchName)})
+			var err error
+			for _, b := range strings.Split(branchName, ",") {
+				b = strings.TrimSpace(b)
+				err = worktree.Checkout(&git.CheckoutOptions{Branch: plumbing.NewBranchReferenceName(b)})
+				if err == nil {
+					color.HiWhite("Checkout %s %s", b, file.Name())
+					break
+				}
+			}
 			if err != nil {
 				color.Yellow("Checkout %s %s: %s", branchName, file.Name(), err)
 				return

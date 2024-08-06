@@ -43,7 +43,7 @@ Flags:
 Use "gitbatch [command] --help" for more information about a command.
 ```
 
-### Clone all project in gitlab group
+### Clone all projects in gitlab group
 
 ```
 gitbatch clone [group id] [dir?]
@@ -53,7 +53,7 @@ gitbatch clone [group id] [dir?]
 gitbatch cg [group id] [dir?]
 ```
 
-### Fetch all project inside directory
+### Fetch all projects inside directory
 
 ```
 gitbatch fetch [dir?]
@@ -64,7 +64,7 @@ the ``--parallel`` value. Currently, the parallel is capped at 8 for this comman
 
 ## MacOS User
 
-Using @ssh mode you may need to add key manually:
+Using @ssh mode, you may need to add key manually:
 
 ```shell
 chmod 600 ~/.ssh/id_rsa

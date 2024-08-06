@@ -46,7 +46,7 @@ func RunWithGit(cmd *cobra.Command, args []string, handler func(cmd *cobra.Comma
 	files := lo.Must(os.ReadDir(workingDir))
 	parallel := viper.GetInt("parallel")
 
-	if util.IsSSH() && parallel > 8 { // Too many connection may starve the SSH_AUTH_SOCK
+	if util.IsSSH() && parallel > 8 { // Too many connections may starve the SSH_AUTH_SOCK
 		println("Reduce number of parallel to avoid SSH_AUTH_SOCK error")
 		parallel = 8
 	}
