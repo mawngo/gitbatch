@@ -39,6 +39,9 @@ func AskAuth() transport.AuthMethod {
 		return nil
 	}
 	user := GetUser()
+	if user == "@none" {
+		return nil
+	}
 	token := getToken()
 	if token != "" {
 		return &http.BasicAuth{

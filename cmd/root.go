@@ -40,7 +40,7 @@ func NewCLI() *CLI {
 	command.PersistentFlags().Int("parallel", 32, "Maximum parallel for each commands")
 	command.PersistentFlags().String("token", "", "Host token")
 	command.PersistentFlags().StringP("mode", "m", "gitlab", "Host mode")
-	command.PersistentFlags().StringP("user", "u", "@ssh", "Auth user name [<user>, @ssh]")
+	command.PersistentFlags().StringP("user", "u", "@none", "Auth user name [<user>, @ssh, @none]")
 	command.Flags().SortFlags = false
 
 	cobra.CheckErr(viper.BindPFlag("parallel", command.PersistentFlags().Lookup("parallel")))
