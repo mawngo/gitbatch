@@ -4,7 +4,7 @@ Script to batch handling git projects
 
 # Installation
 
-Require go 1.22+
+Require go 1.24+
 
 ```shell
 go install github.com/mawngo/gitbatch@latest
